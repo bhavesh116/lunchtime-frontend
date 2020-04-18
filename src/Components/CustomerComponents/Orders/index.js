@@ -1,4 +1,5 @@
 import  React, { useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { View } from 'react-native'
 import Loader from '../../Common/Loader'
@@ -43,7 +44,7 @@ const StyledText = styled.Text`
 `
 const OrderCard = styled.View`
  margin: 10px 0px;
- height: 220px;
+ height: 240px;
  width: 100%
  background-color: white;
  display: flex;
@@ -166,9 +167,13 @@ const Orders = () =>  {
     loaderId
   } = ordersState
 
-  useEffect(() => {
-    dispatch(getAllOrdersInitiate())
-  },[])
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(getAllOrdersInitiate())
+      return () => {
+         
+      };
+    }, []))
 
   useEffect(() => {
     if( success || failure ) {
@@ -179,11 +184,25 @@ const Orders = () =>  {
   useEffect(() => {
       setRefreshing(false)
   },[refreshF])
+
+  const statusColor = (status) => {
+    switch(status) {
+      case 'Pending':
+        return 'green'
+      case 'Ordered':
+        return 'gold'
+      case 'Cancelled':
+        return 'red'
+      case 'Completed':
+        return 'black'
+    }
+  }
    
    const orderContent = (order) => {
      const obj = {}
      obj.Name = order.name
      obj.Price = order.price
+     obj.Quantity = order.quantity
      obj.Date = '12/12/1998'
      obj['Serve time'] = '23:30 PM'
      
@@ -197,7 +216,12 @@ const Orders = () =>  {
            </KeyView>
            <PairView pair>
            <StyledText>
-             {obj[data]}
+             {
+               data === 'Price' ? 
+               `₹${obj[data]}`
+               : 
+              `${obj[data]}`
+             }       
            </StyledText>
            </PairView>
          </DetailContent>
@@ -216,7 +240,7 @@ const Orders = () =>  {
            My Orders
          </StyledText>
        </Header>
-         {
+         { 
            ordersLoader ?  <LoaderWrap><Loader color="black" size={12}/></LoaderWrap>
            :
            <OrderWrapper
@@ -247,7 +271,7 @@ const Orders = () =>  {
                    </StyledText>
                    </KeyView>
                     <PairView>
-                   <StyledText size={17}>
+                   <StyledText color={() => statusColor(order.status)}size={17}>
                      {order.status}
                    </StyledText>
                    </PairView>

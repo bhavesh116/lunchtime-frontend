@@ -196,6 +196,7 @@ const Auth = (props) => {
   useEffect(() => {
     if(loginSuccess && userType) {
        if(userType === 'customer') {
+         console.log('hey')
          return navigate('CustomerRoutes')
        }
        if(userType === 'organization') {

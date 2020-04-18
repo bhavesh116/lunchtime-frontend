@@ -4,6 +4,7 @@ import { AsyncStorage } from 'react-native';
 import { cloneDeep } from 'lodash'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Loader from '../../Common/Loader'
+import { useFocusEffect } from '@react-navigation/native';
 import { getMenuInitiate, placeOrderInitiate, menuToasterRemove } from '../../../redux/actions/CustomerActions/menu'
 import styled, {css} from 'styled-components/native'
 import Toaster from '../../Common/Toaster'
@@ -192,6 +193,14 @@ const MenuToday = () => {
 
  console.log('sucess', success)
 
+ useFocusEffect(
+  React.useCallback(() => {
+    dispatch(getMenuInitiate())   
+    return () => {
+       
+    };
+  }, []))
+
  useEffect(() => {
   if( success || failure ) {
     console.log('booooo') 
@@ -203,10 +212,7 @@ const MenuToday = () => {
     setRefreshing(false)
   },[refreshF])
 
-  useEffect(() => {
-    dispatch(getMenuInitiate())   
-  }, []) 
- 
+
 
 
   // useEffect(() => {
@@ -270,7 +276,12 @@ const MenuToday = () => {
             </DetailKey>
             <DetailKey bb width={72}>
             <StyledText>
-               {obj[data]}
+             {
+               data === 'price' ? 
+               `₹${obj[data]}`
+               : 
+              `${obj[data]}`
+             } 
             </StyledText>
             </DetailKey>
           </DetailContent>

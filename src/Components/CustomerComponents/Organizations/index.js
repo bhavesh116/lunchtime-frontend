@@ -8,6 +8,7 @@ import { getOrganizationsInitiate,
          sendUnsendRequestInitiate,
          removeToaster 
 } from '../../../redux/actions/CustomerActions/organizations'
+import { useFocusEffect } from '@react-navigation/native';
 import styled, {css} from 'styled-components/native'
 import Modal, { ModalContent } from 'react-native-modals';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -108,16 +109,16 @@ const RemoveOrgButton = styled.TouchableOpacity`
  `}
 `
 const SendUnsendButton = styled.TouchableOpacity`
-  height: 35px;
-  width: 110px;
-  border-color: blue;
-  border-radius: 5px;
-  border-width: 1px;
-  position: relative;
-  top: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+ height: 35px;
+ width: 110px;
+ border-color: blue;
+ border-radius: 5px;
+ border-width: 1px;
+ position: relative;
+ top: 5px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
 `
 
 const ModalView = styled.View`
@@ -128,13 +129,13 @@ const ModalView = styled.View`
  width: 97%;
 `
 const ModalButtonRemove = styled.TouchableOpacity`
-height: 30px;
-width: 80px;
-margin: 0px 5px;
-border-radius: 5px;
-align-items: center;
-justify-content: center;
-background-color: red;
+ height: 30px;
+ width: 80px;
+ margin: 0px 5px;
+ border-radius: 5px;
+ align-items: center;
+ justify-content: center;
+ background-color: red;
 `
 
 const NoOrgView = styled.View`
@@ -144,9 +145,18 @@ const NoOrgView = styled.View`
  justify-content: center;
 `
 const LoaderView = styled.View`
-display: flex;
-align-items: center;
-justify-content: center; 
+ display: flex;
+ align-items: center;
+ justify-content: center; 
+`
+
+const StyledRefreshControl = styled.RefreshControl`
+ 
+`
+
+const OrganizationsScrollWrap = styled.ScrollView`
+ height: 100%;
+ width: 100%;
 `
 export default function HomeScreen() {
 const dispatch = useDispatch()
@@ -158,6 +168,7 @@ const {
   searchedOrg,
   searchOrgLoader,
   tabText,
+  refreshF,
   requestLoader,
   disconnectSuccess,
   disconnectFailure,
@@ -168,6 +179,7 @@ const {
 
 const [input, setInput] = useState('')
 const [userData, setUserData] = useState('')
+const [refreshing, setRefreshing] = useState(false)
 const [modalState, setModalState] = useState({state: false, value:""})
 
  useMemo(() => {
@@ -176,9 +188,17 @@ const [modalState, setModalState] = useState({state: false, value:""})
     }).then(uData => setUserData(uData))
  }, []) 
 
-  useEffect(() => {
-      dispatch(getOrganizationsInitiate())
-  },[])
+ useFocusEffect(
+  React.useCallback(() => {
+    dispatch(getOrganizationsInitiate()) 
+    return () => {
+       
+    };
+  }, []))
+
+useEffect(() => {
+    setRefreshing(false)
+},[refreshF])
 
 useEffect(() => {
     if(input.length > 0) {
@@ -276,6 +296,14 @@ useEffect(() => {
             input.length > 0 ?
              searchResults()
              :
+             <OrganizationsScrollWrap
+             refreshControl={
+                <StyledRefreshControl refreshing={refreshing} onRefresh={() => {
+                  dispatch(getOrganizationsInitiate())
+                  setRefreshing(true)
+                }} />
+              }
+             >
              <OrganizationsWrapper>
              {
                organizations.length > 0 ?
@@ -283,7 +311,8 @@ useEffect(() => {
                  return(
                  <OrgCard>
                  <StyledImage
-                   source={require('../../../static/av6.png')} 
+                   //source={require('../../../static/av6.png')} 
+                   source={{uri:"https://i.ibb.co/QD85QZK/user.png"}}
                  />
                  <OrgDetails>
                  <StyledText size={23}>
@@ -306,6 +335,7 @@ useEffect(() => {
                </NoOrg>
              }
            </OrganizationsWrapper>
+           </OrganizationsScrollWrap>
           }
 
         </ContentWrapper>

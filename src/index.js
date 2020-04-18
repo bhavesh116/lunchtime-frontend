@@ -5,8 +5,8 @@ import {Provider} from 'react-redux';
 import store from './redux';
 import Routes from './routes';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faAt, faKey, faHome, faCog, faBuilding, faUser, faUtensils, faTruck, faEyeSlash, faSearch, faPlusSquare, faMinusSquare} from '@fortawesome/free-solid-svg-icons'
-library.add (faAt, faKey, faHome, faCog, faBuilding, faUser, faUtensils, faTruck, faEyeSlash, faSearch, faPlusSquare, faMinusSquare)
+import { faAt, faKey, faHome, faCog, faBuilding, faUser, faUtensils, faTruck, faEyeSlash, faSearch, faPlusSquare, faMinusSquare, faEdit, faTimes, faUsers} from '@fortawesome/free-solid-svg-icons'
+library.add (faAt, faKey, faHome, faCog, faBuilding, faUser, faUtensils, faTruck, faEyeSlash, faSearch, faPlusSquare, faMinusSquare, faEdit, faTimes, faUsers)
 
 const Root = () => {
   return (

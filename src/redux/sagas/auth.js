@@ -1,5 +1,6 @@
 import { put } from 'redux-saga/effects';
 import { AsyncStorage } from 'react-native';
+import config from '../../config/config.json'
 import axios from 'axios'
 import { userLoginSuccess,
          userLoginError,
@@ -9,9 +10,11 @@ import { userLoginSuccess,
          createOrganizationError
      } from '../actions/auth'
 
+const { devUrl } = config
+
 export function* userLoginSaga({ payload }) {
     try {
-       const res = yield axios.post('http://192.168.1.2:3000/auth/login', payload)
+       const res = yield axios.post(`${devUrl}/auth/login`, payload)
        const {
          userId,
          token,
@@ -26,7 +29,7 @@ export function* userLoginSaga({ payload }) {
 
 export function* createCustomerSaga({ payload }) {
       try {
-        yield axios.put('http://192.168.1.2:3000/auth/signUp', payload)
+        yield axios.put(`${devUrl}/auth/signUp`, payload)
         yield put(createCustomerSuccess("User created successfully"))
       } catch (err) {
         yield put(createCustomerError(err.response.data.error.message || "Something went wrong"))
@@ -35,7 +38,7 @@ export function* createCustomerSaga({ payload }) {
 
 export function* createOrganizationSaga({ payload }) {
     try {
-       yield axios.put('http://192.168.1.2:3000/auth/orgSignUp', payload)
+       yield axios.put(`${devUrl}/auth/orgSignUp`, payload)
        yield put(createOrganizationSuccess("Organization created successfully"))
      } catch (err) {
        yield put(createOrganizationError(err.response.data.error.message || "Something went wrong"))

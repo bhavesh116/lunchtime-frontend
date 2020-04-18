@@ -8,6 +8,7 @@ const initialState = {
   tabText: "",
   searchedOrg: {},
   searchOrgLoader: false,
+  refreshF: false,
   requestLoader: false,
   disconnectLoader: false,
   sendReqSuccess: false,
@@ -23,10 +24,10 @@ const organizationTabReducer = ( state = initialState, { type, payload } ) => {
         return { ...state, organizationsLoader: true }
 
       case organizationsTab.GET_ORGANIZTIONS_SUCCESS :
-        return { ...state, organizationsLoader: false, organizations: payload }
+        return { ...state, organizationsLoader: false, organizations: payload, refreshF: !state.refreshF }
 
       case organizationsTab.GET_ORGANIZTIONS_FAILURE :
-        return { ...state, organizationsLoader: false, tabText: payload }  
+        return { ...state, organizationsLoader: false, tabText: payload, refreshF: !state.refreshF }  
 
       case organizationsTab.SEARCH_ORGANIZTION_INITIATE :
         return { ...state, searchOrgLoader: true }

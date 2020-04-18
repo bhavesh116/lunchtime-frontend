@@ -1,8 +1,6 @@
-import  React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux'
-import { Text, View, BackHandler } from 'react-native';
+import  React, { useEffect } from 'react';
+import { BackHandler, KeyboardAvoidingView } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { getOrganizationsInitiate } from '../../redux/actions/CustomerActions/organizations'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import Organizations from './Organizations'
 import Profile from './Profile'
@@ -21,6 +19,7 @@ const CustomerRoutes = () => {
 
   return (
       <Tab.Navigator
+        onNavigationStateChange={(prevState, nextState) => console.log('####', prevState,'@@@@', nextState)}
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
