@@ -21,7 +21,7 @@ return JSON.parse(data)
 
 export function* getCustomerProfileSaga() {
     try {
-       const res = yield axios.put(`${devUrl}/customer/getUserProfile`)
+       const res = yield axios.put(`${devUrl}/auth/getUserProfile`)
        yield put(getCustomerProfileSuccess(res.data.data))
      } catch (err) {
        yield put(getCustomerProfileFailure(err.response.data.error.message || "Something went wrong"))

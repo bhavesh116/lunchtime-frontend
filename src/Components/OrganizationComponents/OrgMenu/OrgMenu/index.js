@@ -220,7 +220,7 @@ const OrgMenu = ({navigation}) => {
                        <StyledText size={16} width={30} color="grey" >Orderd by</StyledText>
                        <OrderedBy>
                         <StyledText size={16} >{`${itm.confirmedCustomers.length} employees`}</StyledText>
-                       </OrderedBy>
+                       </OrderedBy> 
                       </KeyPair>
                       <ButtonsWrap>
                         { showButtons(itm.status) ?
