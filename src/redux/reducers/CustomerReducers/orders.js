@@ -21,7 +21,7 @@ const orderTabReducer = ( state = initialState, { type, payload } ) => {
         return { ...state, ordersLoader: true , success: false, failure: false }
 
       case orderstab.GET_ALL_ORDERS_SUCCESS :
-        return { ...state, ordersLoader: false, orders: payload, refreshF: !state.refreshF }
+        return { ...state, ordersLoader: false, orders: payload.reverse(), refreshF: !state.refreshF }
 
       case orderstab.GET_ALL_ORDERS_FAILURE :
         return { ...state, ordersLoader: false, orderText: payload, refreshF: !state.refreshF }  

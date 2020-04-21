@@ -253,7 +253,7 @@ useEffect(() => {
       return (
         <OrgCard>
         <StyledImage
-          source={require(`../../../static/av1.png`)} 
+          source={{uri:searchedOrg.avatarUrl}} 
         />
         <OrgDetails>
         <StyledText size={23}>

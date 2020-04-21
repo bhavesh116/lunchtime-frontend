@@ -20,7 +20,7 @@ const menuTabReducer = ( state = initialState, { type, payload } ) => {
         return { ...state, menuLoader: true, success: false, failure: false}
 
       case menuTab.GET_MENU_SUCCESS :
-        return { ...state, menuLoader: false, menus: payload, refreshF: !state.refreshF }
+        return { ...state, menuLoader: false, menus: payload.reverse() , refreshF: !state.refreshF }
 
       case menuTab.GET_MENU_FAILURE :
         return { ...state, menuLoader: false, menuText: payload, refreshF: !state.refreshF}  

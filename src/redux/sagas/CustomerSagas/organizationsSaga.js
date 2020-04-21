@@ -20,6 +20,7 @@ return JSON.parse(data)
 }).then(userData => axios.defaults.headers.common = {'Authorization': `bearer ${userData.token}`} )
 
 export function* getOrganizationsSaga() {
+  console.log('hey')
     try {
        const res = yield axios.put(`${devUrl}/customer/organizations`)
        yield put(getOrganizationsSuccess(res.data.data))

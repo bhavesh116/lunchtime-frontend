@@ -1,6 +1,6 @@
 import  React, { useEffect, useState, useMemo} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AsyncStorage } from 'react-native';
+import moment from 'moment'
 import { cloneDeep } from 'lodash'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Loader from '../../Common/Loader'
@@ -264,7 +264,7 @@ const MenuToday = () => {
     let obj = {}
      obj.name = order.dishName
      obj.price = order.price
-     obj['Serve Time'] = order.serveTime
+     obj['Serve Time'] = moment(order.serveTime).format('hh:mm: A')
      
      return Object.keys(obj).map(data => {
        return (
@@ -317,7 +317,7 @@ const MenuToday = () => {
                 <StyledText size={18} color='#f5ce00'>
                     {menu.createdByName}
                 </StyledText>
-                <StyledImage source={require(`../../../static/av5.png`)} />
+                <StyledImage source={{uri: menu.avatarUrl}} />
                 </OrgInfo>
                 <OrderContent>
                 <StyledText mLeft size={18} bottom={10}>

@@ -185,7 +185,7 @@ const Profile = (props) => {
 
   const logOut = async () => {
     setModalState(false)
-    await AsyncStorage.removeItem('userData')
+    await AsyncStorage.clear()
     navigate('Auth')
   }
 

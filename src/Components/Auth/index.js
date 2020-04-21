@@ -1,7 +1,7 @@
 import React, {useReducer, useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  View
+  View, AsyncStorage
 } from 'react-native';
 import {cloneDeep} from 'lodash'
 import styled, {css} from 'styled-components/native'
@@ -139,6 +139,19 @@ ${({active}) => active && css`
 const Auth = (props) => {
   const { navigation:{ navigate } } = props
 
+  useEffect(async () => {
+    const userD = await AsyncStorage.getItem('userData')  
+    console.log('#######################', userD)
+    if(userD) {
+      const userData = JSON.parse(userD)
+      if(userData.userType === 'customer') {
+         navigate('CustomerRoutes')
+      }
+      if(userData.userType === 'organization') {
+         navigate('OrganizationRoutes')
+      }
+    }
+  }, [])
   const dispatch = useDispatch()
   const authState = useSelector(state => state.auth)
 
