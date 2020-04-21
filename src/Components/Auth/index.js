@@ -141,7 +141,6 @@ const Auth = (props) => {
 
   useEffect(async () => {
     const userD = await AsyncStorage.getItem('userData')  
-    console.log('#######################', userD)
     if(userD) {
       const userData = JSON.parse(userD)
       if(userData.userType === 'customer') {
